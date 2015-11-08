@@ -1,88 +1,113 @@
 <?php
-
-//Criar algoritmo para criptografia Conforme item 8 do moodle 
-// Link Moodle: http://graduacao.ftec.com.br/course/view.php?id=7118
-
-
-
+header('Content-type: text/html; charset=UTF-8');
 /*
-- Inverter palavra
-- fazer um calculo com o codigo ascii com numero escondido
-- No final converter para base64
+Constantes de auxilio a criptografia
 */
 
+define('AUX_NUMBER_CRYPT_LIMIT', '654326532175041657942356743');
+define('AUX_NUMBER_CALCULATE_CRYPT', rand(3,17));
 
-function strToBinaryCrypt($text, $key){
+/* General functions */
 
-	$tm = strlen($text); 
-	$x = 0;
-	for($i = 1;$i <= $tm;$i++){
-	    $letra[$i] = substr($text,$x,1); 
-	    $cod[$i] = ord($letra[$i]); 
-	    $bin[$i] = decbin($cod[$i]); 
-	    $x++;
+function dump($data){
+
+	echo '<pre>';
+	var_dump($data);
+	echo '</pre>';
+
+}
+
+function stringKeyCryptToOriginArrayAscii($stringCrypt){
+
+	$string = explode(AUX_NUMBER_CRYPT_LIMIT, $stringCrypt);
+	return $string;
+
+}
+
+/* To Decrypt */
+
+function convertArrayAsciiToString(array $arrayAscii){
+
+	foreach($arrayAscii as $value) {
+		
+		$return .= chr($value);
+
 	}
-	for($i = 1;$i <= $tm;$i++){
-	    $retorno .= $bin[$i] + $key;
+
+	return $return;
+
+}
+
+function convertArrayCalculatedAsciiToStringAscii(array $arrayCalculatedAscii){
+
+	foreach ($arrayCalculatedAscii as $key => $value) {
+		
+		$return .= $value / AUX_NUMBER_CALCULATE_CRYPT . AUX_NUMBER_CRYPT_LIMIT;
+
 	}
 
-	return $retorno;
-
-
-}
-
-function multiplicaEmAscii($char, $multipler){
-
-	return ord(utf8_encode($char)) * $multipler;
-
+	return $return;
 
 }
 
-function divideAscii($ascii, $divisor){
+/* To Crypt */
+function convertStringToAscii($string){
 
-	return $ascii / $divisor;
+	for($i=0; $i < strlen($string); $i++) {
+		
+		$return .= ord($string[$i]).AUX_NUMBER_CRYPT_LIMIT . AUX_NUMBER_CRYPT_LIMIT;
+
+	}
+
+	return $return;
 
 }
+
+function convertArrayAsciiToStringCalculatedAscii(array $arrayAscii){
+
+	foreach ($arrayAscii as $key => $value) {
+		
+		$return .= $value * AUX_NUMBER_CALCULATE_CRYPT . AUX_NUMBER_CRYPT_LIMIT;
+
+	}
+
+	return $return;
+
+}
+
+/* Aplication functions */
 
 function myCrypt($text){
 
-	$randRepeat = rand(1, 8);
-	$randCrypt = str_pad(rand(1,2048), 4, 0, STR_PAD_LEFT);
-	$keyExplode = strToBinaryCrypt($text,18245);
+	$text = convertStringToAscii($text);
+	$text = convertArrayAsciiToStringCalculatedAscii( stringKeyCryptToOriginArrayAscii($text) );
+	$text = base64_encode($text);
+	return $text;
 
-	$texto = str_repeat($text, $randRepeat);
-
-	for ($i=0; $i < strlen($text); $i++) { 
-			
-		$palavraEmAsciiCrypt .= multiplicaEmAscii($text[$i], $randCrypt).$keyExplode;
-
-	}
-
-	return $randRepeat.$palavraEmAsciiCrypt.$randCrypt;
 }
 
-function decrypt($text){
+function deCrypt($text){
 
-	$randRepeat = $text[0];
-	$randCrypt = substr($text, strlen($text)-4, 4);
-
-
-	echo $randRepeat.'<br />';
-	echo $randCrypt.'<br />';
-
-	//$keyExplode = strToBinaryCrypt($texto,18245);
+	$text = base64_decode($text);
+	$text = convertArrayCalculatedAsciiToStringAscii( stringKeyCryptToOriginArrayAscii($text) );
+	$text = stringKeyCryptToOriginArrayAscii($text);
+	$text = convertArrayAsciiToString($text);
+	$text = utf8_encode($text);
+	return $text;
 
 }
 
 if($_POST){
 
+	$stringCrypt = myCrypt($_POST[palavra]);
+	$stringDeCrypt = deCrypt($stringCrypt);
 
-	echo myCrypt($_POST['palavra']). '<br />';	
-	echo decrypt(myCrypt($_POST['palavra']));
+	dump($stringCrypt);
+	dump($stringDeCrypt);
+
 }
-
-
 ?>
+
 
 <!DOCTYPE html>
 <html>

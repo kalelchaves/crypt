@@ -38,15 +38,35 @@ function convertArrayAsciiToString(array $arrayAscii){
 
 }
 
-function convertArrayCalculatedAsciiToStringAscii(array $arrayCalculatedAscii){
+function convertArrayCalculatedAsciiToStringAscii(array $arrayCalculatedAscii, $number=null){
+
+	if(!$number){
+
+		$number = AUX_NUMBER_CALCULATE_CRYPT;
+
+	}
 
 	foreach ($arrayCalculatedAscii as $key => $value) {
 		
-		$return .= $value / AUX_NUMBER_CALCULATE_CRYPT . AUX_NUMBER_CRYPT_LIMIT;
+		$return .= $value / $number . AUX_NUMBER_CRYPT_LIMIT;
 
 	}
 
 	return $return;
+
+}
+
+function getNumberCalculateToCryptString($text){
+
+	$number = substr($text, strlen($text) - 2, 2);
+	return $number;
+
+}
+
+function removeNumberCalculateToCryptString($text){
+
+	$text = substr($text, 0, strlen($text) - 2 );
+	return $text;
 
 }
 
@@ -82,7 +102,9 @@ function myCrypt($text){
 	
 	$text = convertStringToAscii($text);
 	$text = convertArrayAsciiToStringCalculatedAscii( stringKeyCryptToOriginArrayAscii($text) );
+	$text .= str_pad(AUX_NUMBER_CALCULATE_CRYPT, 2,'0', STR_PAD_LEFT);
 	$text = base64_encode($text);
+
 	return $text;
 
 }
@@ -90,9 +112,12 @@ function myCrypt($text){
 function deCrypt($text){
 
 	$text = base64_decode($text);
-	$text = convertArrayCalculatedAsciiToStringAscii( stringKeyCryptToOriginArrayAscii($text) );
+	$numberCalculateCryptString = (int) getNumberCalculateToCryptString($text);
+	$text = removeNumberCalculateToCryptString($text);
+	$text = convertArrayCalculatedAsciiToStringAscii( stringKeyCryptToOriginArrayAscii($text), $numberCalculateCryptString );
 	$text = stringKeyCryptToOriginArrayAscii($text);
 	$text = convertArrayAsciiToString($text);
+
 	
 	return $text;
 
@@ -161,7 +186,7 @@ if($_POST){
 <body>
 	<div class="container">
 		<div class="row">
-			<form class="col s6" method="post">
+			<form class="col s6" method="post" accept-charset="ISO-8859-1">
 				<div class="row">
 					<div class="input-field col s6">
 						<input placeholder="" id="palavra" name="palavra" type="text" class="validate" value="<?php echo $stringDeCrypt;?>">
@@ -172,7 +197,7 @@ if($_POST){
 					<i class="material-icons right">send</i>
 				</button>
 			</form>
-			<form class="col s12" method="post">
+			<form class="col s12" method="post" accept-charset="ISO-8859-1">
 				<div class="row">
 					<div class="input-field col s12">
 						<input placeholder="" id="palavrac" name="palavrac" type="text" class="validate" value="<?php echo $stringCrypt;?>">

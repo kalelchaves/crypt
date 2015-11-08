@@ -1,5 +1,5 @@
 <?php
-header('Content-type: text/html; charset=UTF-8');
+
 /*
 Constantes de auxilio a criptografia
 */
@@ -92,12 +92,13 @@ function deCrypt($text){
 	$text = convertArrayCalculatedAsciiToStringAscii( stringKeyCryptToOriginArrayAscii($text) );
 	$text = stringKeyCryptToOriginArrayAscii($text);
 	$text = convertArrayAsciiToString($text);
-	$text = utf8_encode($text);
+	
 	return $text;
 
 }
 
 if($_POST){
+
 
 	$stringCrypt = myCrypt($_POST[palavra]);
 	$stringDeCrypt = deCrypt($stringCrypt);
@@ -108,7 +109,6 @@ if($_POST){
 }
 ?>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -116,7 +116,7 @@ if($_POST){
 </head>
 <body>
 
-<form action="#" method="post" >
+<form action="#" method="post" accept-charset="ISO-8859-1" >
 	<label>Palavra:</label>
 	<input type="text" name="palavra" id="palavra" />
 

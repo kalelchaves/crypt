@@ -20,6 +20,8 @@ function dump($data){
 function stringKeyCryptToOriginArrayAscii($stringCrypt){
 
 	$string = explode(AUX_NUMBER_CRYPT_LIMIT, $stringCrypt);
+	array_pop($string);
+
 	return $string;
 
 }
@@ -87,7 +89,7 @@ function convertArrayAsciiToStringCalculatedAscii(array $arrayAscii){
 
 	foreach ($arrayAscii as $key => $value) {
 		
-		$return .= $value * AUX_NUMBER_CALCULATE_CRYPT . AUX_NUMBER_CRYPT_LIMIT;
+		$return .= ($value * AUX_NUMBER_CALCULATE_CRYPT) . AUX_NUMBER_CRYPT_LIMIT;
 
 	}
 
@@ -102,7 +104,7 @@ function myCrypt($text){
 	$text = convertStringToAscii($text);
 	$text = convertArrayAsciiToStringCalculatedAscii( stringKeyCryptToOriginArrayAscii($text) );
 	$text .= str_pad(AUX_NUMBER_CALCULATE_CRYPT, 2,'0', STR_PAD_LEFT);
-	$text = base64_encode($text);
+	//$text = base64_encode($text);
 
 	return $text;
 
@@ -110,7 +112,7 @@ function myCrypt($text){
 
 function deCrypt($text){
 
-	$text = base64_decode($text);
+	//$text = base64_decode($text);
 	$numberCalculateCryptString = (int) getNumberCalculateToCryptString($text);
 	$text = removeNumberCalculateToCryptString($text);
 	$text = convertArrayCalculatedAsciiToStringAscii( stringKeyCryptToOriginArrayAscii($text), $numberCalculateCryptString );
@@ -127,7 +129,7 @@ if($_POST){
 	if($_POST[palavra]){
 		
 		$stringCrypt = myCrypt($_POST[palavra]);
-		dump($stringCrypt);
+		//dump($stringCrypt);
 	}
 	
 	//$stringDeCrypt = deCrypt('MTQ3NjU0MzI2NTMyMTc1MDQxNjU3OTQyMzU2NzQzMDY1NDMyNjUzMjE3NTA0MTY1Nzk0MjM1Njc0MzA2NTQzMjY1MzIxNzUwNDE2NTc5NDIzNTY3NDM=');
@@ -135,7 +137,7 @@ if($_POST){
 
 	if($_POST[palavrac]){
 		$stringDeCrypt = deCrypt($_POST[palavrac]);
-		dump($stringDeCrypt);
+		//dump($stringDeCrypt);
 	}
 	//$stringCrypt = myCrypt($_POST[palavra]);
 	//$stringDeCrypt = deCrypt($stringCrypt);

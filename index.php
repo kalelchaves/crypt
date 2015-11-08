@@ -75,7 +75,7 @@ function convertStringToAscii($string){
 
 	for($i=0; $i < strlen($string); $i++) {
 		
-		$return .= ord($string[$i]).AUX_NUMBER_CRYPT_LIMIT . AUX_NUMBER_CRYPT_LIMIT;
+		$return .= ord($string[$i]).AUX_NUMBER_CRYPT_LIMIT;
 
 	}
 
@@ -99,7 +99,6 @@ function convertArrayAsciiToStringCalculatedAscii(array $arrayAscii){
 
 function myCrypt($text){
 
-	
 	$text = convertStringToAscii($text);
 	$text = convertArrayAsciiToStringCalculatedAscii( stringKeyCryptToOriginArrayAscii($text) );
 	$text .= str_pad(AUX_NUMBER_CALCULATE_CRYPT, 2,'0', STR_PAD_LEFT);
@@ -147,29 +146,6 @@ if($_POST){
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-
-<form action="#" method="post" accept-charset="ISO-8859-1" >
-	<label>Palavra:</label>
-	<input type="text" name="palavra" id="palavra" />
-
-	<br />
-
-	<button type="submit" >Enviar</button>
-</form>
-
-
-
-
-
-</body>
-</html>
-
 
 <!DOCTYPE html>
 <html>
@@ -186,6 +162,7 @@ if($_POST){
 <body>
 	<div class="container">
 		<div class="row">
+
 			<form class="col s6" method="post" accept-charset="ISO-8859-1">
 				<div class="row">
 					<div class="input-field col s6">
@@ -197,6 +174,7 @@ if($_POST){
 					<i class="material-icons right">send</i>
 				</button>
 			</form>
+
 			<form class="col s12" method="post" accept-charset="ISO-8859-1">
 				<div class="row">
 					<div class="input-field col s12">
@@ -208,6 +186,7 @@ if($_POST){
 					<i class="material-icons right">send</i>
 				</button>
 			</form>
+
 		</div>
 	</div>
 	<script type="text/javascript" src="./resources/js/jquery-2.1.4.min.js"></script>

@@ -79,6 +79,7 @@ function convertArrayAsciiToStringCalculatedAscii(array $arrayAscii){
 
 function myCrypt($text){
 
+	
 	$text = convertStringToAscii($text);
 	$text = convertArrayAsciiToStringCalculatedAscii( stringKeyCryptToOriginArrayAscii($text) );
 	$text = base64_encode($text);

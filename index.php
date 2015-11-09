@@ -4,7 +4,7 @@
 Constantes de auxilio a criptografia
 */
 
-define('AUX_NUMBER_CRYPT_LIMIT', '654326532175041657942356743');
+define('AUX_NUMBER_CRYPT_LIMIT', 'dsf$#@');
 define('AUX_NUMBER_CALCULATE_CRYPT', rand(3,17));
 
 /* General functions */
@@ -26,6 +26,12 @@ function stringKeyCryptToOriginArrayAscii($stringCrypt){
 
 }
 
+function getAuxNumberCalculateCrypt(){
+
+	return rand(2,9);
+
+}
+
 /* To Decrypt */
 
 function convertArrayAsciiToString(array $arrayAscii){
@@ -40,17 +46,11 @@ function convertArrayAsciiToString(array $arrayAscii){
 
 }
 
-function convertArrayCalculatedAsciiToStringAscii(array $arrayCalculatedAscii, $number=null){
-
-	if(!$number){
-
-		$number = AUX_NUMBER_CALCULATE_CRYPT;
-
-	}
+function convertArrayCalculatedAsciiToStringAscii(array $arrayCalculatedAscii, array $numberCalculate){
 
 	foreach ($arrayCalculatedAscii as $key => $value) {
 		
-		$return .= $value / $number . AUX_NUMBER_CRYPT_LIMIT;
+		$return .= ($value / (int) $numberCalculate[$key]) . AUX_NUMBER_CRYPT_LIMIT;
 
 	}
 
@@ -89,11 +89,36 @@ function convertArrayAsciiToStringCalculatedAscii(array $arrayAscii){
 
 	foreach ($arrayAscii as $key => $value) {
 		
-		$return .= ($value * AUX_NUMBER_CALCULATE_CRYPT) . AUX_NUMBER_CRYPT_LIMIT;
+		$numberAuxCalculate = getAuxNumberCalculateCrypt();
 
+		$return .= ($value * (int)$numberAuxCalculate) . str_pad($numberAuxCalculate, 2, '0', STR_PAD_LEFT) .AUX_NUMBER_CRYPT_LIMIT;		
 	}
 
 	return $return;
+
+}
+
+function extractNumberToCalculateAsciiString(array $arrayAscii){
+
+	foreach ($arrayAscii as $key => $value) {
+		
+		$numberArrayCalculate[] = substr($value, strlen($value)-2, 2);
+
+	}
+
+	return $numberArrayCalculate;
+
+}
+
+function removeNumberToCalculateAsciiString(array $arrayAscii){
+
+	foreach ($arrayAscii as $key => $value) {
+		
+		$string .= substr($value, 0, strlen($value)-2) . AUX_NUMBER_CRYPT_LIMIT;
+
+	}
+
+	return $string;
 
 }
 
@@ -103,7 +128,6 @@ function myCrypt($text){
 
 	$text = convertStringToAscii($text);
 	$text = convertArrayAsciiToStringCalculatedAscii( stringKeyCryptToOriginArrayAscii($text) );
-	$text .= str_pad(AUX_NUMBER_CALCULATE_CRYPT, 2,'0', STR_PAD_LEFT);
 	$text = base64_encode($text);
 
 	return $text;
@@ -113,9 +137,9 @@ function myCrypt($text){
 function deCrypt($text){
 
 	$text = base64_decode($text);
-	$numberCalculateCryptString = (int) getNumberCalculateToCryptString($text);
-	$text = removeNumberCalculateToCryptString($text);
-	$text = convertArrayCalculatedAsciiToStringAscii( stringKeyCryptToOriginArrayAscii($text), $numberCalculateCryptString );
+	$numbersCalculate = extractNumberToCalculateAsciiString( stringKeyCryptToOriginArrayAscii( $text ) );
+	$text = removeNumberToCalculateAsciiString( stringKeyCryptToOriginArrayAscii($text) );
+	$text = convertArrayCalculatedAsciiToStringAscii( stringKeyCryptToOriginArrayAscii($text), $numbersCalculate );
 	$text = stringKeyCryptToOriginArrayAscii($text);
 	$text = convertArrayAsciiToString($text);
 

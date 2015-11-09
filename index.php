@@ -4,7 +4,7 @@
 Constantes de auxilio a criptografia
 */
 
-define('AUX_NUMBER_CRYPT_LIMIT', 'dsf$#@');
+define('AUX_NUMBER_CRYPT_LIMIT', '$');
 define('AUX_NUMBER_CALCULATE_CRYPT', rand(3,17));
 
 /* General functions */

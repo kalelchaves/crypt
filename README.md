@@ -22,3 +22,5 @@ Lula é encontrado!
 Temer chama exercito
 
 Lula é chamado!
+
+Carro de Temer é encontrado!

@@ -17,3 +17,6 @@ Temer faz de novo
 
 
 Lula é encontrado!
+
+
+Temer chama exercito

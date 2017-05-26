@@ -24,3 +24,5 @@ Temer chama exercito
 Lula é chamado!
 
 Carro de Temer é encontrado!
+
+Lula inicia sua campanha junto com Moro

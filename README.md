@@ -8,3 +8,5 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 Lula compra carro
 
 Grêmio ganha do Fluminense
+
+Inter é desclassificado

@@ -10,3 +10,5 @@ Lula compra carro
 Grêmio ganha do Fluminense
 
 Inter é desclassificado
+
+A casa caiu

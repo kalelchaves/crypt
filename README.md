@@ -51,3 +51,5 @@ Olá Kalel de novo!
 
 
 Olá Kalel de novo novo novo!
+
+Nova notícia do Crypt

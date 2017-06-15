@@ -68,4 +68,4 @@ Agora vai 6.0
 
 Agora vai 7.0
 
-Agora vai 7.2
+Agora vai 7.3

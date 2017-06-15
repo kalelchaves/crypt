@@ -57,3 +57,5 @@ Nova notícia do Crypt
 Agora vai
 
 Agora vai 2.0
+
+Agora vai 3.0

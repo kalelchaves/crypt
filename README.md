@@ -55,3 +55,5 @@ Olá Kalel de novo novo novo!
 Nova notícia do Crypt
 
 Agora vai
+
+Agora vai 2.0

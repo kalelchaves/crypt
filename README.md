@@ -65,3 +65,5 @@ Agora vai 4.0
 Agora vai 5.0
 
 Agora vai 6.0
+
+Agora vai 7.0
